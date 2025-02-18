@@ -1,0 +1,30 @@
+name: Build Packer Image
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Packer
+        uses: hashicorp/setup-packer@v2
+        with:
+          version: latest
+
+      - name: Install Proxmox Plugin
+        run: packer plugins install github.com/hashicorp/proxmox
+
+      - name: Validate Packer template
+        run: | 
+          cd Packer/ubuntu-server-noble
+          packer validate --var-file='credentials.pkr.hcl' ubuntu-server-noble.pkr.hcl 
+
+      - name: Build Packer image
+        run: | 
+          cd Packer/ubuntu-server-noble
+          PACKER_LOG=1 packer build --var-file='credentials.pkr.hcl' ubuntu-server-noble.pkr.hcl 

@@ -1,0 +1,28 @@
+name: Run Terraform for HomeLab
+
+on:
+  workflow_dispatch:
+
+env:
+  TF_VAR_proxmox_api_url : ${{ secrets.PROXMOX_API_URL}}
+  TF_VAR_proxmox_api_token_id : ${{ secrets.PROXMOX_API_TOKEN_ID }}
+  TF_VAR_proxmox_api_token_secret : ${{ secrets.PROXMOX_API_TOKEN_SECRET }}
+  TF_LOG : "DEBUG"
+
+jobs:
+  build:
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ./Terraform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialise Terraform
+        run: terraform init
+
+      - name: Run Terraform
+        run: terraform apply -auto-approve
+          
+
