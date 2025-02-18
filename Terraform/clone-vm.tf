@@ -56,7 +56,7 @@ resource "proxmox_vm_qemu" "clone-vm" {
       type = "serial0"
     }
 
-    ciuser = "ste"
-    cipassword = "Masteron!1"
+    ciuser = #user
+    cipassword = #password
 
 }
