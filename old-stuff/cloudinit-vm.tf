@@ -3,7 +3,7 @@ resource "proxmox_vm_qemu" "cloudinit-example" {
     target_node = "homelab"
     desc = "VM created from cloud init template by terraform"
     agent = 1 #enbles qemu guest agent
-    clone = "ubuntu-oracular-cloudinit" # The name of the template
+    clone = "ubuntu-template-2025" # The name of the template
     full_clone = true #will create an entirely seperate VM
 
     #hardware config
