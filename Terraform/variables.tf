@@ -11,3 +11,7 @@ variable "proxmox_api_token_secret" {
     type = string
     sensitive = true
 }
+
+variable "homelab_node" {
+    type = string
+}

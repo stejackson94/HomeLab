@@ -2,6 +2,11 @@ name: Run Terraform for HomeLab
 
 on:
   workflow_dispatch:
+    inputs:
+      node:
+        description: 'Node to deploy VM to'     
+        required: true
+        default: 'homelab'
 
 env:
   TF_VAR_proxmox_api_url : ${{ secrets.PROXMOX_API_URL}}
@@ -18,6 +23,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Export node env var
+        run: echo "TF_VAR_homelab_node=${{ github.event.inputs.node}}" >> $GITHUB_ENV
+
+      - name: Echo node env var
+        run: echo "homelab node being used is = [ $TF_VAR_homelab_node ]"
 
       - name: Initialise Terraform
         run: terraform init

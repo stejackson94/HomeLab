@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "clone-vm" {
     name = "test-terraform1"
     desc = "VM created by terraform"
-    target_node = "homelab"
+    target_node = var.homelab_node
     clone = "Ubuntu-template-2025" # The name of the template
     agent = 1 #enbles qemu guest agent
     full_clone = true #will create an entirely seperate VM
