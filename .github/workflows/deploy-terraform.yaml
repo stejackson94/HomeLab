@@ -4,14 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       node:
+        type: choice
         description: 'Node to deploy VM to'     
         required: true
-        default: 'homelab'
+        options: 
+        - homelab
+        - homelab2
       name:
+        type: string
         description: 'Name for VM'     
         required: true
         default: 'VM01'
-
+      username:
+        type: string
+        description: 'Username for VM'     
+        required: true
+        default: ''
+      password:
+        type: string
+        description: 'Password for VM'     
+        required: true
+        default: ''
 env:
   TF_VAR_proxmox_api_url : ${{ secrets.PROXMOX_API_URL}}
   TF_VAR_proxmox_api_token_id : ${{ secrets.PROXMOX_API_TOKEN_ID }}
@@ -28,14 +41,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Export node env var
-        run: echo "TF_VAR_homelab_node=${{ github.event.inputs.node }}" >> $GITHUB_ENV
-
-      - name: Export name env var
-        run: echo "TF_VAR_vm_name=${{ github.event.inputs.name }}" >> $GITHUB_ENV
+      - name: Get inputs
+        run: | 
+              echo "TF_VAR_homelab_node=${{ github.event.inputs.node }}" >> $GITHUB_ENV
+              echo "TF_VAR_vm_name=${{ github.event.inputs.name }}" >> $GITHUB_ENV
+              echo "TF_VAR_username=${{ github.event.inputs.username }}" >> $GITHUB_ENV
+              echo "TF_VAR_password=${{ github.event.inputs.password }}" >> $GITHUB_ENV
 
       - name: Echo new env vars
-        run: echo "homelab node being used is = [ $TF_VAR_homelab_node ], and is called [ $TF_VAR_vm_name ]"
+        run: echo "homelab node being used is = [$TF_VAR_homelab_node], and is called [$TF_VAR_vm_name], and the username is [$TF_VAR_username]"
 
       - name: Initialise Terraform
         run: terraform init

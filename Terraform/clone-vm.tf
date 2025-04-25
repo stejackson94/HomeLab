@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "clone-vm" {
     name = var.vm_name
     desc = "VM created by terraform"
     target_node = var.homelab_node
-    clone = "Ubuntu-template-2025" # The name of the template
+    clone = "ubuntu-template-2025" # The name of the template
     agent = 1 #enbles qemu guest agent
     full_clone = true #will create an entirely seperate VM
 
@@ -56,7 +56,7 @@ resource "proxmox_vm_qemu" "clone-vm" {
       type = "serial0"
     }
 
-    ciuser = #user
-    cipassword = #password
+    ciuser = var.username
+    cipassword = var.password
 
 }

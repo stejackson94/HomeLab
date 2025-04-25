@@ -19,3 +19,12 @@ variable "homelab_node" {
 variable "vm_name" {
     type = string
 }
+
+variable "username" {
+    type = string
+}
+
+variable "password" {
+    type = string
+    sensitive = true
+}
