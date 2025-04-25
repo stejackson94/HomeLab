@@ -1,5 +1,5 @@
 resource "proxmox_vm_qemu" "clone-vm" {
-    name = "test-terraform1"
+    name = var.vm_name
     desc = "VM created by terraform"
     target_node = var.homelab_node
     clone = "Ubuntu-template-2025" # The name of the template
